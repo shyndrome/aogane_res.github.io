@@ -1,9 +1,130 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My Site</title>
-  </head>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アオガネ残席情報画像</title>
+    <style>
+        #container {
+            position: relative;
+            display: inline-block;
+            width: 90vw;
+        }
+        #baseImage, #previewImage {
+            width: 90vw;
+            height: auto;
+        }
+        .marker {
+            position: absolute;
+            font-size: 60px;
+            font-weight: bold;
+            color: #c73d4d;
+        }
+        #previewImage {
+            display: block;
+            margin-top: 10px;
+            max-width: 100%;
+        }
+    </style>
+</head>
 <body>
-  <h1>Hello from GitHub Pages!</h1>
+    <input type="number" id="input1" placeholder="2/27(木) 19:00回">
+    <input type="number" id="input2" placeholder="2/28(金) 19:00回">
+    <br>
+    <input type="number" id="input3" placeholder="3/1(土) 13:00回">
+    <input type="number" id="input4" placeholder="3/1(土) 18:00回">
+    <br>
+    <input type="number" id="input5" placeholder="3/2(日) 12:00回">
+    <input type="number" id="input6" placeholder="3/2(日) 17:00回">
+    <button onclick="processImage()">確定</button>
+    <button onclick="saveImage()">保存</button>
+    
+    <br><br>
+    <div id="container">
+        <img id="baseImage" src="すいか残席情報_更新.png" alt="背景画像">
+        <img id="previewImage" alt="プレビュー画像" style="display:none;">
+    </div>
+
+    <script>
+        function processImage() {
+            const positions = [
+                { left: 400, top: 670, image: '終演.png' },
+                { left: 590, top: 670, image: '終演.png' },
+                { left: 780, top: 470, image: '当日券あり.png' },
+                { left: 780, top: 670, image: '当日券あり.png' },
+                { left: 970, top: 470 },
+                { left: 970, top: 670 }
+            ];
+            
+            const values = [
+                document.getElementById('input1').value,
+                document.getElementById('input2').value,
+                document.getElementById('input3').value,
+                document.getElementById('input4').value,
+                document.getElementById('input5').value,
+                document.getElementById('input6').value
+            ];
+    
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const baseImage = document.getElementById('baseImage');
+            
+            canvas.width = baseImage.naturalWidth;
+            canvas.height = baseImage.naturalHeight;
+            ctx.drawImage(baseImage, 0, 0);
+            
+            ctx.fillStyle = "#645C5A";
+            ctx.font = "bold 60px Arial";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            
+            let imagesLoaded = 0;
+            let totalImages = positions.filter(p => p.image).length;
+            
+            function drawMarkers() {
+                values.forEach((value, index) => {
+                    if (positions[index].image) return; // 画像を配置する場所にはテキストを描画しない
+                    
+                    let mark;
+                    if (value >= 31) {
+                        mark = "◎";
+                    } else if (value >= 21) {
+                        mark = "◯";
+                    } else if (value >= 11) {
+                        mark = "△";
+                    } else if (value >= 1) {
+                        mark = "▲";
+                    } else {
+                        mark = "✖️";
+                    }
+                    ctx.fillText(mark, positions[index].left, positions[index].top);
+                });
+                
+                // プレビュー画像の表示
+                const previewImage = document.getElementById('previewImage');
+                previewImage.src = canvas.toDataURL("image/png");
+                previewImage.style.display = "block";
+            }
+            
+            if (totalImages === 0) {
+                drawMarkers();
+                return;
+            }
+    
+            positions.forEach((pos, index) => {
+                if (pos.image) {
+                    const img = new Image();
+                    img.src = pos.image;
+                    img.onload = function () {
+                        ctx.drawImage(img, pos.left - 60, pos.top - 60, 120, 120);
+                        imagesLoaded++;
+                        if (imagesLoaded === totalImages) {
+                            drawMarkers();
+                        }
+                    };
+                }
+            });
+        }
+    </script>    
 </body>
 </html>
