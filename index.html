@@ -45,87 +45,91 @@
     </div>
 
     <script>
-function processImage() {
-    const positions = [
-        { left: 400, top: 670 },
-        { left: 590, top: 670 },
-        { left: 780, top: 470 },
-        { left: 780, top: 670 },
-        { left: 970, top: 470 },
-        { left: 970, top: 670 }
-    ];
+    function processImage() {
+        const positions = [
+            { left: 400, top: 670 },
+            { left: 590, top: 670 },
+            { left: 780, top: 470 },
+            { left: 780, top: 670 },
+            { left: 970, top: 470 },
+            { left: 970, top: 670 }
+        ];
+        
+        const values = [
+            document.getElementById('input1')?.value || "",
+            document.getElementById('input2').value,
+            document.getElementById('input3').value,
+            document.getElementById('input4').value,
+            document.getElementById('input5').value,
+            document.getElementById('input6').value
+        ];
 
-    const values = [
-        document.getElementById('input1')?.value || "",
-        document.getElementById('input2').value,
-        document.getElementById('input3').value,
-        document.getElementById('input4').value,
-        document.getElementById('input5').value,
-        document.getElementById('input6').value
-    ];
+        // 画像ファイル名をvalueに応じて取得
+        function getAssetImage(value) {
+            if (value <= 0) return "アセット 5.png";
+            if (value <= 5) return "アセット 4.png";
+            if (value <= 10) return "アセット 3.png";
+            if (value <= 20) return "アセット 2.png";
+            if (value <= 30) return "アセット 1.png";
+            return null;
+        }
 
-    function getAssetImage(value) {
-        if (value <= 0) return "アセット5.png";
-        if (value <= 5) return "アセット4.png";
-        if (value <= 10) return "アセット3.png";
-        if (value <= 20) return "アセット2.png";
-        if (value > 20) return "アセット1.png";
-        return null;
-    }
-
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const baseImage = document.getElementById('baseImage');
-
-    // 読み込みが完了してから処理する
-    const base = new Image();
-    base.src = baseImage.src;
-    base.onload = function () {
-        canvas.width = base.naturalWidth;
-        canvas.height = base.naturalHeight;
-        ctx.drawImage(base, 0, 0);
-
-        const iconSize = 80;
-        let imagesLoaded = 0;
-        const totalImages = positions.length;
-
+        // 各位置に画像を設定（テキストマーカーは廃止）
         positions.forEach((pos, i) => {
             const val = parseInt(values[i]);
-            const assetPath = getAssetImage(val);
-            if (!assetPath) {
-                imagesLoaded++;
-                if (imagesLoaded === totalImages) drawPreview();
-                return;
+            if (!isNaN(val)) {
+                const image = getAssetImage(val);
+                if (image) {
+                    pos.image = image;
+                }
             }
-
-            const img = new Image();
-            img.src = assetPath;
-            img.onload = function () {
-                ctx.drawImage(
-                    img,
-                    pos.left - iconSize / 2,
-                    pos.top - iconSize / 2,
-                    iconSize,
-                    iconSize
-                );
-                imagesLoaded++;
-                if (imagesLoaded === totalImages) drawPreview();
-            };
-            img.onerror = function () {
-                console.error("画像の読み込みに失敗:", assetPath);
-                imagesLoaded++;
-                if (imagesLoaded === totalImages) drawPreview();
-            };
         });
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const baseImage = document.getElementById('baseImage');
+
+        canvas.width = baseImage.naturalWidth;
+        canvas.height = baseImage.naturalHeight;
+        ctx.drawImage(baseImage, 0, 0);
+
+        let imagesLoaded = 0;
+        let totalImages = positions.filter(p => p.image).length;
 
         function drawPreview() {
             const previewImage = document.getElementById('previewImage');
             previewImage.src = canvas.toDataURL("image/png");
             previewImage.style.display = "block";
         }
-    };
-}
-</script>
+
+        if (totalImages === 0) {
+            drawPreview();
+            return;
+        }
+
+        positions.forEach((pos) => {
+            if (pos.image) {
+                const img = new Image();
+                img.src = pos.image;
+                img.onload = function () {
+                    ctx.drawImage(img, pos.left - 60, pos.top - 60, 120, 120);
+                    imagesLoaded++;
+                    if (imagesLoaded === totalImages) {
+                        drawPreview();
+                    }
+                };
+                img.onerror = function () {
+                    console.error("画像の読み込みに失敗しました:", pos.image);
+                    imagesLoaded++;
+                    if (imagesLoaded === totalImages) {
+                        drawPreview();
+                    }
+                };
+            }
+        });
+    }
+    </script>
+
 
     
 </body>
