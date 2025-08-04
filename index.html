@@ -46,15 +46,6 @@
 
     <script>
     function processImage() {
-    const positions = [
-        { left: 400, top: 670 },
-        { left: 590, top: 670 },
-        { left: 780, top: 470 },
-        { left: 780, top: 670 },
-        { left: 970, top: 470 },
-        { left: 970, top: 670 }
-    ];
-    
     const values = [
         document.getElementById('input1')?.value || "",
         document.getElementById('input2').value,
@@ -73,16 +64,6 @@
         return null;
     }
 
-    positions.forEach((pos, i) => {
-        const val = parseInt(values[i]);
-        if (!isNaN(val)) {
-            const image = getAssetImage(val);
-            if (image) {
-                pos.image = image;
-            }
-        }
-    });
-
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const baseImage = document.getElementById('baseImage');
@@ -91,49 +72,33 @@
     canvas.height = baseImage.naturalHeight;
     ctx.drawImage(baseImage, 0, 0);
 
-    const iconSize = 80; // ← 固定サイズ
+    const iconSize = 80;
 
-    let imagesLoaded = 0;
-    let totalImages = positions.filter(p => p.image).length;
+    // 一番最後の入力値（＝input6）の画像のみ中央に表示する
+    const lastVal = parseInt(values[values.length - 1]);
+    const asset = getAssetImage(lastVal);
 
-    function drawPreview() {
+    if (!asset) return;
+
+    const img = new Image();
+    img.src = asset;
+    img.onload = function () {
+        ctx.drawImage(
+            img,
+            (canvas.width - iconSize) / 2,
+            (canvas.height - iconSize) / 2,
+            iconSize,
+            iconSize
+        );
         const previewImage = document.getElementById('previewImage');
         previewImage.src = canvas.toDataURL("image/png");
         previewImage.style.display = "block";
-    }
-
-    if (totalImages === 0) {
-        drawPreview();
-        return;
-    }
-
-    positions.forEach((pos) => {
-        if (pos.image) {
-            const img = new Image();
-            img.src = pos.image;
-            img.onload = function () {
-                ctx.drawImage(
-                    img,
-                    pos.left - iconSize / 2,
-                    pos.top - iconSize / 2,
-                    iconSize,
-                    iconSize
-                );
-                imagesLoaded++;
-                if (imagesLoaded === totalImages) {
-                    drawPreview();
-                }
-            };
-            img.onerror = function () {
-                console.error("画像の読み込みに失敗しました:", pos.image);
-                imagesLoaded++;
-                if (imagesLoaded === totalImages) {
-                    drawPreview();
-                }
-            };
-        }
-    });
+    };
+    img.onerror = function () {
+        console.error("画像の読み込みに失敗しました:", asset);
+    };
 }
+
 </script>
     
 </body>
