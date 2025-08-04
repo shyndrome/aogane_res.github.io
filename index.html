@@ -107,27 +107,34 @@
             return;
         }
 
-        positions.forEach((pos) => {
-            if (pos.image) {
-                const img = new Image();
-                img.src = pos.image;
-                img.onload = function () {
-                    ctx.drawImage(img, pos.left - 60, pos.top - 60, 120, 120);
-                    imagesLoaded++;
-                    if (imagesLoaded === totalImages) {
-                        drawPreview();
-                    }
-                };
-                img.onerror = function () {
-                    console.error("画像の読み込みに失敗しました:", pos.image);
-                    imagesLoaded++;
-                    if (imagesLoaded === totalImages) {
-                        drawPreview();
-                    }
-                };
+        const iconSize = 90;
+
+positions.forEach((pos) => {
+    if (pos.image) {
+        const img = new Image();
+        img.src = pos.image;
+        img.onload = function () {
+            ctx.drawImage(
+                img,
+                pos.left - iconSize / 2,
+                pos.top - iconSize / 2,
+                iconSize,
+                iconSize
+            );
+            imagesLoaded++;
+            if (imagesLoaded === totalImages) {
+                drawPreview();
             }
-        });
+        };
+        img.onerror = function () {
+            console.error("画像の読み込みに失敗しました:", pos.image);
+            imagesLoaded++;
+            if (imagesLoaded === totalImages) {
+                drawPreview();
+            }
+        };
     }
+});
     </script>
 
 
