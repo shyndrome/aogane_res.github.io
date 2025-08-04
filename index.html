@@ -93,6 +93,8 @@
         canvas.height = baseImage.naturalHeight;
         ctx.drawImage(baseImage, 0, 0);
 
+        const iconSize = 80px;
+
         let imagesLoaded = 0;
         let totalImages = positions.filter(p => p.image).length;
 
