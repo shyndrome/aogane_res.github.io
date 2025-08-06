@@ -67,7 +67,7 @@
             if (value <= 5) return "アセット4.png";
             if (value <= 10) return "アセット3.png";
             if (value <= 25) return "アセット2.png";
-            else return "アセット1.png";
+            if (25 < value) return "アセット1.png";
             return null;
         }
     
