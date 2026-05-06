@@ -22,19 +22,24 @@
         }
         #previewImage {
             display: block;
-            margin-top: 10px;
             max-width: 100%;
         }
     </style>
 </head>
 <body>
-    <input type="number" id="input2" placeholder="6/19(金) 19:00回">
+    <label for="input1">6/19(金) 19:00回</label>
+    <input type="number" id="input1" placeholder="6/19(金) 19:00回">
     <br>
-    <input type="number" id="input3" placeholder="6/20(土) 14:00回">
-    <input type="number" id="input4" placeholder="6/20(土) 18:00回">
+    <label for="input2">6/20(土) 14:00回</label>
+    <input type="number" id="input2" placeholder="6/20(土) 14:00回">
+    <label for="input3">6/20(土) 18:00回</label>
+    <input type="number" id="input3" placeholder="6/20(土) 18:00回">
     <br>
-    <input type="number" id="input5" placeholder="6/21(日) 13:00回">
-    <input type="number" id="input6" placeholder="6/21(日) 17:00回">
+    <label for="input4">6/21(日) 13:00回</label>
+    <input type="number" id="input4" placeholder="6/21(日) 13:00回">
+    <label for="input5">6/21(日) 17:00回</label>
+    <input type="number" id="input5" placeholder="6/21(日) 17:00回">
+    <br>
     <button onclick="processImage()">確定</button>
     <button onclick="saveImage()">保存</button>
     
@@ -45,6 +50,31 @@
     </div>
 
     <script>
+    const inputValue01 = document.getElementById('input1');
+    const inputValue02 = document.getElementById('input2');
+    const inputValue03 = document.getElementById('input3');
+    const inputValue04 = document.getElementById('input4');
+    const inputValue05 = document.getElementById('input5');
+    const sheetUrl = 'https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnQQnTOV9iCqDv2y_VNwVO3CY3-zhVpSEHnfzj-xrcruvl8HejW7VU9JFEy9mQQ3etKzaT43IoXPHCAFjDpqBAuNl-C2MXhtZ7zHmj2RIt_QCijC0-Pp0qrycP6rzR6OJNpXkwKsX0pGEwZCikYsxErEbHKCISnuoXBbX1uVbp2J5OW2XldwqBKCvD1jJB_jyAcAYkLuIBHqPF9AkQjr_SQWZetgoGDIlzTa9Ls2scngrhDS7QpMl_XYhlGQ1Nuyy1Q_P3Bmoc-IDa-sdyDfgQapAudfeQ&lib=MEePv-QPXKsiky45Btae-Zc7qlj9jboXg';
+
+    fetch(sheetUrl)
+        .then(function (data) {
+            return data.json();
+        })
+        .then(function (json) {
+            var v1 = json.s1;
+            var v2 = json.s2;
+            var v3 = json.s3;
+            var v4 = json.s4;
+            var v5 = json.s5;
+
+            inputValue01.value = v1;
+            inputValue02.value = v2;
+            inputValue03.value = v3;
+            inputValue04.value = v4;
+            inputValue05.value = v5;
+        })
+
     function processImage() {
         const positions = [
           { left: 1150, top: 2600 },
@@ -55,19 +85,19 @@
         ];
     
         const values = [
+            document.getElementById('input1').value,
             document.getElementById('input2').value,
             document.getElementById('input3').value,
             document.getElementById('input4').value,
-            document.getElementById('input5').value,
-            document.getElementById('input6').value
+            document.getElementById('input5').value
         ];
     
         function getAssetImage(value) {
             if (value <= 0) return "アセット/アセット 5.png";
-            if (value <= 5) return "アセット/アセット 4.png";
-            if (value <= 10) return "アセット/アセット 3.png";
-            if (value <= 25) return "アセット/アセット 2.png";
-            if (25 < value) return "アセット/アセット 1.png";
+            if (value <= 10) return "アセット/アセット 4.png";
+            if (value <= 20) return "アセット/アセット 3.png";
+            if (value <= 30) return "アセット/アセット 2.png";
+            if (30 < value) return "アセット/アセット 1.png";
             return null;
         }
     
@@ -96,6 +126,7 @@
             const previewImage = document.getElementById('previewImage');
             previewImage.src = canvas.toDataURL("image/png");
             previewImage.style.display = "block";
+            baseImage.style.display = "none";
         }
     
         if (totalImages === 0) {
@@ -131,6 +162,12 @@
                 };
             }
         });
+    }
+
+    function saveImage() {
+        var currentDate = new Date();
+        console.log(currentDate);
+        previewImage.download = 'aogane_残席情報_' + currentDate + 'jpg';
     }
 </script>
 
