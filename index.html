@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>アオガネ残席情報画像</title>
+    <title>shyndrome_残席情報画像</title>
     <style>
         #container {
             position: relative;
@@ -11,7 +11,7 @@
             width: 90vw;
         }
         #baseImage, #previewImage {
-            width: 90vw;
+            width: 500px;
             height: auto;
         }
         .marker {
@@ -28,30 +28,30 @@
     </style>
 </head>
 <body>
-    <input type="number" id="input2" placeholder="9/12(金) 19:00回">
+    <input type="number" id="input2" placeholder="6/19(金) 19:00回">
     <br>
-    <input type="number" id="input3" placeholder="9/13(土) 14:00回">
-    <input type="number" id="input4" placeholder="9/13(土) 18:00回">
+    <input type="number" id="input3" placeholder="6/20(土) 14:00回">
+    <input type="number" id="input4" placeholder="6/20(土) 18:00回">
     <br>
-    <input type="number" id="input5" placeholder="9/14(日) 13:00回">
-    <input type="number" id="input6" placeholder="9/14(日) 17:00回">
+    <input type="number" id="input5" placeholder="6/21(日) 13:00回">
+    <input type="number" id="input6" placeholder="6/21(日) 17:00回">
     <button onclick="processImage()">確定</button>
     <button onclick="saveImage()">保存</button>
     
     <br><br>
     <div id="container">
-        <img id="baseImage" src="アオガネ_残席情報フォーマット_base-01.jpg" alt="背景画像">
+        <img id="baseImage" src="残席情報フォーマット_逆説夫婦善哉.jpg" alt="背景画像">
         <img id="previewImage" alt="プレビュー画像" style="display:none;">
     </div>
 
     <script>
     function processImage() {
         const positions = [
-          { left: 1200, top: 2400 },
-          { left: 2250, top: 2400 },
-          { left: 2250, top: 3200 },
-          { left: 3300, top: 2400 },
-          { left: 3300, top: 3200 }
+          { left: 1150, top: 2600 },
+          { left: 2250, top: 2600 },
+          { left: 2250, top: 3425 },
+          { left: 3350, top: 2600 },
+          { left: 3350, top: 3425 }
         ];
     
         const values = [
@@ -63,11 +63,11 @@
         ];
     
         function getAssetImage(value) {
-            if (value <= 0) return "アセット5.png";
-            if (value <= 5) return "アセット4.png";
-            if (value <= 10) return "アセット3.png";
-            if (value <= 25) return "アセット2.png";
-            if (25 < value) return "アセット1.png";
+            if (value <= 0) return "アセット/アセット 5.png";
+            if (value <= 5) return "アセット/アセット 4.png";
+            if (value <= 10) return "アセット/アセット 3.png";
+            if (value <= 25) return "アセット/アセット 2.png";
+            if (25 < value) return "アセット/アセット 1.png";
             return null;
         }
     
@@ -131,7 +131,7 @@
                 };
             }
         });
-    } // ← ここで processImage 関数を閉じるのを忘れずに
+    }
 </script>
 
 
