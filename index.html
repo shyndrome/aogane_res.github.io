@@ -11,7 +11,7 @@
             width: 90vw;
         }
         #baseImage, #previewImage {
-            width: 500px;
+            width: 100%;
             height: auto;
         }
         .marker {
@@ -32,11 +32,13 @@
     <br>
     <label for="input2">6/20(土) 14:00回</label>
     <input type="number" id="input2" placeholder="6/20(土) 14:00回">
+    <br>
     <label for="input3">6/20(土) 18:00回</label>
     <input type="number" id="input3" placeholder="6/20(土) 18:00回">
     <br>
     <label for="input4">6/21(日) 13:00回</label>
     <input type="number" id="input4" placeholder="6/21(日) 13:00回">
+    <br>
     <label for="input5">6/21(日) 17:00回</label>
     <input type="number" id="input5" placeholder="6/21(日) 17:00回">
     <br>
@@ -46,7 +48,7 @@
     <br><br>
     <div id="container">
         <img id="baseImage" src="残席情報フォーマット_逆説夫婦善哉.jpg" alt="背景画像">
-        <img id="previewImage" alt="プレビュー画像" style="display:none;">
+        <img id="previewImage" alt="プレビュー画像" style="display:none; cursor: pointer;" >
     </div>
 
     <script>
@@ -166,8 +168,13 @@
 
     function saveImage() {
         var currentDate = new Date();
-        console.log(currentDate);
-        previewImage.download = 'aogane_残席情報_' + currentDate + 'jpg';
+        let canvas = document.getElementById("previewImage");
+
+        let link = document.createElement("a");
+        console.log(canvas);
+        link.href = canvas.toDataURL("image/png");
+        link.download = "aogane_残席情報_" + currentDate + ".png";
+        link.click();
     }
 </script>
 
