@@ -13,6 +13,7 @@
         #baseImage, #previewImage {
             width: 100%;
             height: auto;
+            max-width: 500px;
         }
         .marker {
             position: absolute;
@@ -22,11 +23,52 @@
         }
         #previewImage {
             display: block;
-            max-width: 100%;
+        }
+        table {
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            margin: 25px 0;
+        }
+        table, th, td {
+            border: 0.1px solid #444;
         }
     </style>
 </head>
 <body>
+    <h2>アオガネの杜『逆説夫婦善哉』</h2>
+    <table>
+        <thead>
+            <th>残席数</th>
+            <th>ステータス</th>
+            <th>マーク</th>
+        </thead>
+        <tr>
+            <td>31〜</td>
+            <td>余裕あり</td>
+            <td>◎</td>
+        </tr>
+        <tr>
+            <td>21〜30</td>
+            <td>お早めに</td>
+            <td>◯</td>
+        </tr>
+        <tr>
+            <td>11〜20</td>
+            <td>残り僅か</td>
+            <td>△</td>
+        </tr>
+        <tr>
+            <td>1〜10</td>
+            <td>まもなく終了</td>
+            <td>▲</td>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>予定枚数終了</td>
+            <td>×</td>
+        </tr>
+    </table>
     <label for="input1">6/19(金) 19:00回</label>
     <input type="number" id="input1" placeholder="6/19(金) 19:00回">
     <br>
