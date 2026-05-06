@@ -167,19 +167,19 @@
     }
 
     function saveImage() {
-        var currentDate = new Date();
-        let canvas = document.getElementById("previewImage");
+        const previewImage = document.getElementById('previewImage');
 
-        let link = document.createElement("a");
-        console.log(canvas);
-        link.href = canvas.toDataURL("image/png");
-        link.download = "aogane_残席情報_" + currentDate + ".png";
+        var now = new Date();
+        const dateString = now.getFullYear() +
+            ('0' + (now.getMonth() + 1)).slice(-2) +
+            ('0' + now.getDate()).slice(-2);
+
+        const link = document.createElement('a');
+        link.href = previewImage.src;
+        link.download = 'aogane_残席情報_' + dateString + '.png';
         link.click();
     }
 </script>
-
-
-
     
 </body>
 </html>
