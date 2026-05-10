@@ -49,17 +49,17 @@
             <td>◎</td>
         </tr>
         <tr>
-            <td>21〜30</td>
+            <td>25〜30</td>
             <td>お早めに</td>
             <td>◯</td>
         </tr>
         <tr>
-            <td>11〜20</td>
+            <td>13〜24</td>
             <td>残り僅か</td>
             <td>△</td>
         </tr>
         <tr>
-            <td>1〜10</td>
+            <td>1〜12</td>
             <td>まもなく終了</td>
             <td>▲</td>
         </tr>
@@ -138,8 +138,8 @@
     
         function getAssetImage(value) {
             if (value <= 0) return "アセット/アセット 5.png";
-            if (value <= 10) return "アセット/アセット 4.png";
-            if (value <= 20) return "アセット/アセット 3.png";
+            if (value <= 12) return "アセット/アセット 4.png";
+            if (value <= 24) return "アセット/アセット 3.png";
             if (value <= 30) return "アセット/アセット 2.png";
             if (30 < value) return "アセット/アセット 1.png";
             return null;
